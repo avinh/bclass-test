@@ -81,17 +81,22 @@ export class GradeService {
   }
 
   async updateStudentGrades(gradeId: number, dto: UpdateGradeDto) {
-    const grade = await this.databaseService.getRepos().grandeRepo.findOne({
-      where: { id: gradeId },
-    });
+    const grade = await this.databaseService
+      .getRepos()
+      .grandeRepo.findOne({ where: { id: gradeId } });
 
     if (!grade) {
       throw new NotFoundException('Grade not found');
     }
 
-    grade.score = +dto.score;
-    grade.type = +dto.type;
+    await this.databaseService
+      .getRepos()
+      .grandeRepo.update(gradeId, { ...dto });
 
-    return this.databaseService.getRepos().grandeRepo.save(grade);
+    const updatedGrade = await this.databaseService
+      .getRepos()
+      .grandeRepo.findOne({ where: { id: gradeId } });
+
+    return updatedGrade;
   }
 }

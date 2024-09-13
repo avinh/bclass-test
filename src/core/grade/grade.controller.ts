@@ -7,17 +7,17 @@ import { GradeService } from './grade.service';
 export class GradeController {
   constructor(private readonly gradeService: GradeService) {}
   @ApiOperation({ summary: 'Get grades of student' })
-  @Get(':id')
-  getStudentGrades(@Param('id') id: string) {
-    return this.gradeService.getStudentGrades(+id);
+  @Get(':student_id')
+  getStudentGrades(@Param('student_id') student_id: string) {
+    return this.gradeService.getStudentGrades(+student_id);
   }
 
   @ApiOperation({ summary: 'Update score for student' })
-  @Post(':id')
+  @Post(':grade_id')
   updateStudentGrades(
-    @Param('id') id: string,
+    @Param('grade_id') grade_id: string,
     @Body() updateGradeDto: UpdateGradeDto,
   ) {
-    return this.gradeService.updateStudentGrades(+id, updateGradeDto);
+    return this.gradeService.updateStudentGrades(+grade_id, updateGradeDto);
   }
 }
